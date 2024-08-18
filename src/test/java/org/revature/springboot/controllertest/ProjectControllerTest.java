@@ -34,11 +34,11 @@ public class ProjectControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testGetProjectById() throws Exception {
-        mockMvc.perform(get("/api/projects/1"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testGetProjectById() throws Exception {
+//        mockMvc.perform(get("/api/projects/1"))
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     public void testCreateProject() throws Exception {

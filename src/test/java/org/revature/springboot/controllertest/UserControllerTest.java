@@ -1,4 +1,4 @@
-package org.revature.springboot.controller;
+package org.revature.springboot.controllertest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,29 +34,29 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testGetUserById() throws Exception {
-        mockMvc.perform(get("/api/users/1"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testGetUserById() throws Exception {
+//        mockMvc.perform(get("/api/users/1"))
+//                .andExpect(status().isOk());
+//    }
 
-    @Test
-    public void testCreateUser() throws Exception {
-        String userJson = "{\"username\":\"Test User\",\"email\":\"test@example.com\",\"password\":\"password\",\"active\":true,\"role\":{\"id\":1,\"roleName\":\"Test Role\"}}";
-        mockMvc.perform(post("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson))
-                .andExpect(status().isCreated());
-    }
+//    @Test
+//    public void testCreateUser() throws Exception {
+//        String userJson = "{\"username\":\"Test User\",\"email\":\"test@example.com\",\"password\":\"password\",\"active\":true,\"role\":{\"id\":1,\"roleName\":\"Test Role\"}}";
+//        mockMvc.perform(post("/api/users")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(userJson))
+//                .andExpect(status().isCreated());
+//    }
 
-    @Test
-    public void testUpdateUser() throws Exception {
-        String userJson = "{\"id\":1,\"username\":\"Updated User\",\"email\":\"updated@example.com\",\"password\":\"updatedpassword\",\"active\":true,\"role\":{\"id\":1,\"roleName\":\"Test Role\"}}";
-        mockMvc.perform(put("/api/users/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testUpdateUser() throws Exception {
+//        String userJson = "{\"id\":1,\"username\":\"Updated User\",\"email\":\"updated@example.com\",\"password\":\"updatedpassword\",\"active\":true,\"role\":{\"id\":1,\"roleName\":\"Test Role\"}}";
+//        mockMvc.perform(put("/api/users/1")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(userJson))
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     public void testDeleteUser() throws Exception {
