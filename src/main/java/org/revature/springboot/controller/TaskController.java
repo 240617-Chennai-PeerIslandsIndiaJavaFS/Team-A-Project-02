@@ -55,4 +55,14 @@ public class TaskController {
     public ResponseEntity<List<Task>> getTasksByProjectId(@PathVariable Long projectId) {
         return new ResponseEntity<>(taskService.getTasksByProjectId(projectId), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Task> updateTaskStatus(@PathVariable Long id, @RequestParam String status) {
+        try {
+            Task updatedTask = taskService.updateTaskStatus(id, status);
+            return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+        } catch (TaskNotFoundException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
 }
