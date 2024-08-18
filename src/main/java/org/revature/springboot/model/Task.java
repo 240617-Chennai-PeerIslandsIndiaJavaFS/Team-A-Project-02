@@ -22,6 +22,11 @@ public class Task {
     private Integer actualEffort;
     private String milestone;
 
+    private boolean isCompleted;
+    @ManyToOne
+    @JoinColumn(name = "team_member_id")
+    private User teamMember;
+
     @ManyToOne
     @JoinColumn(name = "assignee_id")
     private User assignee;
