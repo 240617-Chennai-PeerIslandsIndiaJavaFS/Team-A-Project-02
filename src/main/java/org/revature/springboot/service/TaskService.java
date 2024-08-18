@@ -74,4 +74,12 @@ public class TaskService {
         User teamMember = userRepository.findById(teamMemberId).orElseThrow(() -> new UserNotFoundException("Team member not found"));
         return taskRepository.findByTeamMember(teamMember);
     }
+
+    public List<Task> filterTasksByProject(Long projectId) {
+        return taskRepository.findByProjectId(projectId);
+    }
+
+    public List<Task> sortTasksByProject(Long projectId) {
+        return taskRepository.findByProjectIdOrderByStartDateAsc(projectId);
+    }
 }

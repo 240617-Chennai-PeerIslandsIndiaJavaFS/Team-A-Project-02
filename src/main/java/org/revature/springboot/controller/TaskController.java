@@ -76,4 +76,17 @@ public class TaskController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
+
+
+    @GetMapping("/filter/{projectId}")
+    public ResponseEntity<List<Task>> filterTasksByProject(@PathVariable Long projectId) {
+        List<Task> tasks = taskService.filterTasksByProject(projectId);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
+
+    @GetMapping("/sort/{projectId}")
+    public ResponseEntity<List<Task>> sortTasksByProject(@PathVariable Long projectId) {
+        List<Task> tasks = taskService.sortTasksByProject(projectId);
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    }
 }

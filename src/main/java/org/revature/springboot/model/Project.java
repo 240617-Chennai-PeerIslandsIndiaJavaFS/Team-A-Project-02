@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,7 +30,8 @@ public class Project {
     @JoinColumn(name = "project_manager_id")
     private User projectManager;
 
-    @OneToMany(mappedBy = "project")
-    private Set<Task> tasks;
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
+    
 }
 

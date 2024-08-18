@@ -45,4 +45,10 @@ public class ProjectController {
         projectService.deleteProject(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<Project> viewProjectDetails(@PathVariable Long projectId) {
+        Project project = projectService.viewProjectDetails(projectId);
+        return new ResponseEntity<>(project, HttpStatus.OK);
+    }
 }
