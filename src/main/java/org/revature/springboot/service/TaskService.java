@@ -44,4 +44,12 @@ public class TaskService {
     public List<Task> getTasksByProjectId(Long projectId) {
         return taskRepository.findByProjectId(projectId);
     }
+
+    public Task updateTaskStatus(Long taskId, String newStatus) {
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
+        task.setStatus(newStatus);
+        return taskRepository.save(task);
+    }
+    }
 }
