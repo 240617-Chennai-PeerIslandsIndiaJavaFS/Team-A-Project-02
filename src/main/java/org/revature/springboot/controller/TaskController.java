@@ -57,6 +57,16 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getTasksByProjectId(projectId), HttpStatus.OK);
     }
 
+    @PutMapping("/{taskId}/assign/{teamMemberId}")
+    public Task assignTaskToTeamMember(@PathVariable Long taskId, @PathVariable Long teamMemberId) {
+        return taskService.assignTaskToTeamMember(taskId, teamMemberId);
+    }
+
+    @GetMapping("/team-member/{teamMemberId}")
+    public List<Task> getTasksForTeamMember(@PathVariable Long teamMemberId) {
+        return taskService.getTasksForTeamMember(teamMemberId);
+    }
+
     @PutMapping("/{id}/status")
     public ResponseEntity<Task> updateTaskStatus(@PathVariable Long id, @RequestParam String status) {
         try {
