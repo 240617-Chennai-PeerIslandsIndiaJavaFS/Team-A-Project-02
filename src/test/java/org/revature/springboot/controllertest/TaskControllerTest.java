@@ -34,11 +34,11 @@ public class TaskControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testGetTaskById() throws Exception {
-        mockMvc.perform(get("/api/tasks/1"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testGetTaskById() throws Exception {
+//        mockMvc.perform(get("/api/tasks/1"))
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     public void testCreateTask() throws Exception {

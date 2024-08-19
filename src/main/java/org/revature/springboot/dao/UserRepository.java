@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @EntityScan(basePackages = "org.revature.springboot.model")
-public interface UserRepository extends JpaRepository<User,Long>{
-        }
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
+}

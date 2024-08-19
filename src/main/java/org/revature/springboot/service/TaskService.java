@@ -1,10 +1,10 @@
 package org.revature.springboot.service;
 
 import org.revature.springboot.dao.TaskRepository;
+import org.revature.springboot.exception.TaskNotFoundException;
 import org.revature.springboot.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -50,6 +50,5 @@ public class TaskService {
                 .orElseThrow(() -> new TaskNotFoundException("Task not found with id: " + taskId));
         task.setStatus(newStatus);
         return taskRepository.save(task);
-    }
     }
 }
