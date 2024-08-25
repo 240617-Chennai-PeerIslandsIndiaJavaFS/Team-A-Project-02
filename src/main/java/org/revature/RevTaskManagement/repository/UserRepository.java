@@ -2,6 +2,8 @@ package org.revature.RevTaskManagement.repository;
 
 import jakarta.transaction.Transactional;
 import org.revature.RevTaskManagement.Enums.Role;
+import org.revature.RevTaskManagement.Enums.Status;
+import org.revature.RevTaskManagement.models.Project;
 import org.revature.RevTaskManagement.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,6 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUsernameAndEmail(String username, String email);
     List<User> findByRole(Role role);
     Optional<User> findByUsername(String username);
+    List<User> findByStatus(Status status);
 
     @Modifying
     @Transactional

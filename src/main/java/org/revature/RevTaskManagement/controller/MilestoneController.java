@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/milestones")
+@RequestMapping("/api/milestones")
 public class MilestoneController {
 
     @Autowired

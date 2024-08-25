@@ -1,6 +1,5 @@
 package org.revature.RevTaskManagement.controller;
 
-
 import org.revature.RevTaskManagement.models.User;
 import org.revature.RevTaskManagement.service.EmailService;
 import org.revature.RevTaskManagement.service.OtpService;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class ForgotPasswordController {
 
     @Autowired

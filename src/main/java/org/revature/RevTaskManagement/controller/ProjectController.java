@@ -1,10 +1,12 @@
 package org.revature.RevTaskManagement.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.revature.RevTaskManagement.models.Project;
 import org.revature.RevTaskManagement.models.User;
 import org.revature.RevTaskManagement.service.ProjectService;
 import org.revature.RevTaskManagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/api/projects")
 public class ProjectController {
 
     @Autowired
@@ -57,5 +59,26 @@ public class ProjectController {
     @GetMapping("/getTeamMembersByProjectId")
     public Set<User> getTeamMembersByProjectId(@RequestParam int projectId) {
         return projectService.getTeamMembersByProjectId(projectId);
+    }
+
+    @GetMapping("/projectManager")
+    public User getProjectManagerByTeamMember(@RequestParam String username) {
+        return projectService.getProjectManagerByTeamMemberUsername(username);
+    }
+
+    @GetMapping("/user/{username}")
+    public List<Project> getProjectsByUsernameget(@PathVariable String username) {
+        return projectService.getProjectsByUsernameget(username);
+    }
+
+    @GetMapping("/project-managers/team-member/{username}")
+    public List<User> getProjectManagersByTeamMemberUsername(@PathVariable String username) {
+        return projectService.getAllProjectManagersByTeamMemberUsername(username);
+    }
+
+    @GetMapping("/{projectId}/manager")
+    public ResponseEntity<User> getProjectManagerByProjectId(@PathVariable int projectId) {
+        User projectManager = projectService.getProjectManagerByProjectId(projectId);
+        return ResponseEntity.ok(projectManager);
     }
 }
