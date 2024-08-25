@@ -1,6 +1,7 @@
 package org.revature.RevTaskManagement.service;
 
 import org.revature.RevTaskManagement.models.Project;
+import org.revature.RevTaskManagement.models.ResourceNotFoundException;
 import org.revature.RevTaskManagement.models.User;
 import org.revature.RevTaskManagement.repository.ProjectRepository;
 import org.revature.RevTaskManagement.repository.UserRepository;
@@ -8,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
-@Service
+import java.util.Set;@Service
 public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
@@ -56,5 +56,23 @@ public class ProjectService {
             return project.getTeamMembers();
         }
         return null;
+    }
+
+    public User getProjectManagerByTeamMemberUsername(String username) {
+        return projectRepository.findProjectManagerByTeamMemberUsername(username);
+    }
+
+    public List<Project> getProjectsByUsernameget(String username) {
+        return projectRepository.findProjectsByUsernameget(username);
+    }
+
+    public List<User> getAllProjectManagersByTeamMemberUsername(String username) {
+        return projectRepository.findAllProjectManagersByTeamMemberUsername(username);
+    }
+
+    public User getProjectManagerByProjectId(int projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ResourceNotFoundException("Project not found"));
+        return project.getProjectManager();
     }
 }

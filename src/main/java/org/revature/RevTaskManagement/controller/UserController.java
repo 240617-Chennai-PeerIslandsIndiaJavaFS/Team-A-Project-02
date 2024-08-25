@@ -1,9 +1,7 @@
 package org.revature.RevTaskManagement.controller;
 
 import org.revature.RevTaskManagement.Enums.Status;
-import org.revature.RevTaskManagement.models.Client;
-import org.revature.RevTaskManagement.models.Task;
-import org.revature.RevTaskManagement.models.User;
+import org.revature.RevTaskManagement.models.*;
 import org.revature.RevTaskManagement.service.EmailService;
 import org.revature.RevTaskManagement.service.OtpService;
 import org.revature.RevTaskManagement.service.UserService;
@@ -18,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -37,8 +35,10 @@ public class UserController {
 
         try {
             User user = userService.authenticateUser(email, password);
-            if (user != null) {
+            if (user != null && user.getStatus() == Status.ACTIVE) {
                 return new ResponseEntity<>(user, HttpStatus.OK);
+            } else if (user != null && user.getStatus() != Status.ACTIVE) {
+                return new ResponseEntity<>("Your account is inactive. Please contact support.", HttpStatus.FORBIDDEN);
             } else {
                 return new ResponseEntity<>("Invalid email or password.", HttpStatus.UNAUTHORIZED);
             }
@@ -59,19 +59,19 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
     @PutMapping("/update/{userId}")
     public ResponseEntity<String> updateUser(
             @PathVariable int userId,
             @RequestParam(required = false) String newName,
-            @RequestParam(required = false) String newEmail,
-            @RequestParam(required = false) Status newStatus) {
+            @RequestParam(required = false) String newEmail) {
 
         try {
-            User updatedUser = userService.updateUser(userId, newName, newEmail, newStatus);
+            User updatedUser = userService.updateUser(userId, newName, newEmail);
             return new ResponseEntity<>("User updated successfully: " + updatedUser.getUsername(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error updating user: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -129,6 +129,60 @@ public class UserController {
     @GetMapping("/tasks-by-manager")
     public Set<Task> getTasksByManager(@RequestParam String managerName) {
         return userService.getTasksByManagerName(managerName);
+    }
+
+    @DeleteMapping("/reassign-tasks-and-delete/{oldUserId}/{newUserId}")
+    public ResponseEntity<String> reassignTasksAndDeleteUser(
+            @PathVariable int oldUserId,
+            @PathVariable int newUserId) {
+        try {
+            userService.reassignTasksAndDeleteUser(oldUserId, newUserId);
+            return ResponseEntity.ok("Tasks reassigned and user deleted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/inactive")
+    public List<User> getInactiveUsers() {
+        return userService.getInactiveUsers();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") int userId) {
+        try {
+            userService.deleteUserById(userId);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/deactivate/{userId}")
+    public ResponseEntity<String> deactivateUser(@PathVariable int userId) {
+        try {
+            User deactivatedUser = userService.deactivateUser(userId);
+            return new ResponseEntity<>("User deactivated successfully: " + deactivatedUser.getUsername(), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+    @PutMapping("/activate/{userId}")
+    public ResponseEntity<String> activateUser(@PathVariable int userId) {
+        try {
+            User activatedUser = userService.activateUser(userId);
+            return new ResponseEntity<>("User activated successfully: " + activatedUser.getUsername(), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
+        Optional<User> user = userService.getUserById(id);
+        return user.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

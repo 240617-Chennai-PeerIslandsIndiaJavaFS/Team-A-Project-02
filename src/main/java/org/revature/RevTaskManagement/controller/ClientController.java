@@ -3,12 +3,12 @@ package org.revature.RevTaskManagement.controller;
 import org.revature.RevTaskManagement.models.Client;
 import org.revature.RevTaskManagement.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/api/clients")
 public class ClientController {
 
     @Autowired
